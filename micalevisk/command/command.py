@@ -20,7 +20,7 @@ def msg_with_cmd_style(message:str):
 
 # def listener(cmd_message:str, *args): ## https://stackoverflow.com/questions/3394835/args-and-kwargs
 def listener(cmd_message:str, args:list):
-  print('comando', cmd_message, 'escutado', file=stderr)#§
+  # print('comando', cmd_message, 'escutado', file=stderr)#§
 
   cmd = cmd_message[ len(COMMAND_KEYWORD): ]
   return COMMANDS_AND_ACTIONS[cmd](*args) if cmd in COMMANDS_AND_ACTIONS else None
@@ -28,7 +28,7 @@ def listener(cmd_message:str, args:list):
 
 
 def enable():
-  print(__name__, enable.__name__, file=stderr)#§
+  # print(__name__, enable.__name__, file=stderr)#§
 
   for (fname, f) in getmembers(commands):
     if isfunction(f) and fname.startswith(COMMAND_HANDLER_PREFIX):
