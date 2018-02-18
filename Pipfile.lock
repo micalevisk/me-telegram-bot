@@ -1,11 +1,7 @@
 {
     "_meta": {
         "hash": {
-<<<<<<< HEAD
             "sha256": "d0efc59edc56675714da88071e24cae88cb5bd53bc8d8bd0139abe92153484aa"
-=======
-            "sha256": "f2bfcc443931623b3a85e491c922db38bc03edde455ed972b916280996e8e4d1"
->>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -33,15 +29,12 @@
         ]
     },
     "default": {
-<<<<<<< HEAD
         "configparser": {
             "hashes": [
                 "sha256:5308b47021bc2340965c371f0f058cc6971a04502638d4244225c49d80db273a"
             ],
             "version": "==3.5.0"
         },
-=======
->>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
         "pyaes": {
             "hashes": [
                 "sha256:02c1b1405c38d3c370b085fb952dd8bea3fadcee6411ad99f312cc129c536d8f"

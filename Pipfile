@@ -1,27 +1,12 @@
 [[source]]
-<<<<<<< HEAD
-
-=======
->>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-<<<<<<< HEAD
-
 [packages]
-
 pyrogram = "==0.6.1"
 configparser = "*"
 
-
 [requires]
-
-=======
-[packages]
-pyrogram = "==0.6.1"
-
-
-[requires]
->>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
 python_version = "3.6"
+
