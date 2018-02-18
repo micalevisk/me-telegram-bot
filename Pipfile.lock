@@ -1,0 +1,65 @@
+{
+    "_meta": {
+        "hash": {
+<<<<<<< HEAD
+            "sha256": "d0efc59edc56675714da88071e24cae88cb5bd53bc8d8bd0139abe92153484aa"
+=======
+            "sha256": "f2bfcc443931623b3a85e491c922db38bc03edde455ed972b916280996e8e4d1"
+>>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
+        },
+        "host-environment-markers": {
+            "implementation_name": "cpython",
+            "implementation_version": "3.6.4",
+            "os_name": "posix",
+            "platform_machine": "x86_64",
+            "platform_python_implementation": "CPython",
+            "platform_release": "2.10.0(0.325/5/3)",
+            "platform_system": "CYGWIN_NT-10.0",
+            "platform_version": "2018-02-02 15:16",
+            "python_full_version": "3.6.4",
+            "python_version": "3.6",
+            "sys_platform": "cygwin"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.6"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+<<<<<<< HEAD
+        "configparser": {
+            "hashes": [
+                "sha256:5308b47021bc2340965c371f0f058cc6971a04502638d4244225c49d80db273a"
+            ],
+            "version": "==3.5.0"
+        },
+=======
+>>>>>>> c47195d58f9b566d0b2e8eb6e2acb82c79412c7c
+        "pyaes": {
+            "hashes": [
+                "sha256:02c1b1405c38d3c370b085fb952dd8bea3fadcee6411ad99f312cc129c536d8f"
+            ],
+            "version": "==1.6.1"
+        },
+        "pyrogram": {
+            "hashes": [
+                "sha256:c1ba419de73e9e257925144b4dcde82f71c392d51128276602487993f0ce847b"
+            ],
+            "version": "==0.6.1"
+        },
+        "pysocks": {
+            "hashes": [
+                "sha256:3fe52c55890a248676fd69dc9e3c4e811718b777834bcaab7a8125cf9deac672"
+            ],
+            "version": "==1.6.8"
+        }
+    },
+    "develop": {}
+}
