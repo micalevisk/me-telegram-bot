@@ -1,1 +1,1 @@
-worker: python setup.py
+worker: pipenv run python setup.py
