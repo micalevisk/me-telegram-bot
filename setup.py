@@ -1,18 +1,14 @@
 ## https://docs.pyrogram.ml
 ## https://core.telegram.org/methods
-from pyrogram import Client, ParseMode
-from pyrogram.api import types, functions, errors
+from pyrogram.api import types, functions
 from micalevisk import *
-# from json import dumps
 import sys
 from xclient import XClient
 
 
 ## https://docs.pyrogram.ml/types/Update
-def update_handler(client:Client, update, users, chats):
-  # frame = inspect.currentframe()
-  # _, _, _, args_values = inspect.getargvalues(frame)
-  commands_switcher_func_args = [client, update]
+def update_handler(client, update, users, chats):
+  commands_switcher_func_args = [client, update] ## TODO: incluir os demais parâmetros
 
   ## handling private messages or edit messages
   ## https://docs.pyrogram.ml/types/UpdateNewMessage
@@ -84,4 +80,4 @@ if __name__ == '__main__':
     client.idle()
     # client.stop()
   except Exception as err:
-    print(err)#§
+    print('[MAIN ERROR]', err, file=sys.stderr)#§
