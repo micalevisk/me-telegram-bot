@@ -4,9 +4,9 @@ from pyrogram.api import types, functions, errors
 ## https://docs.pyrogram.ml/types/UpdateNewMessage
 ## https://docs.pyrogram.ml/types/UpdateEditMessage
 def is_newmessage_from_self(update:types.UpdateNewMessage or types.UpdateEditMessage) -> bool:
-  # if isinstance(update, types.UpdateNewMessage):
-  message = update.message
-  return isinstance(message.to_id, types.PeerUser) and message.from_id == message.to_id.user_id
+  """Verifica se a atualização é de uma mensagem (enviada ou editada) do próprio usuário Client."""
+  return update.message.out or (isinstance(update.message.to_id, types.PeerUser) and update.message.from_id == update.message.to_id.user_id)
+
 
 ## https://docs.pyrogram.ml/functions/messages/DeleteHistory
 def clear_history(client, peer_id:int or str) -> types.messages.AffectedHistory:
