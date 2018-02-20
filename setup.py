@@ -5,6 +5,20 @@ from micalevisk import *
 import sys
 from xclient import XClient
 
+## https://docs.pyrogram.ml/pyrogram/Client/#pyrogram.Client.send_message
+def handler_action_auto_reply(client, message:types.Message):
+  try:
+    chat_history = client.send(
+      functions.messages.GetHistory(
+        client.peers_by_id[message.from_id], 0, 0, 0, 5, 0, 0, 0
+      )
+    )
+
+    if len(chat_history.messages) <= 2: ## XXX: a lógica admite que um foreign user não enviará mais de 2 menssagens de uma vez
+      return client.send_message(message.from_id, '**eo**', reply_to_message_id=message.id)
+  except Exception as err:
+    print(handler_action_auto_reply.__name__, err, file=sys.stderr)#§
+
 
 ## https://docs.pyrogram.ml/types/Update
 def update_handler(client, update, users, chats):
@@ -23,9 +37,7 @@ def update_handler(client, update, users, chats):
         if command.msg_with_cmd_style(message.message):
           return command.listener(message.message, commands_switcher_func_args)
       elif not users[message.from_id].bot:
-        print(update)
-        ## TODO: implementar handler auto-reply (se o user for estrangeiro)
-        print('PM recebida de user não bot:', message.message)
+        return handler_action_auto_reply(client, message)
     return
 
   ## handling channels edit messages
