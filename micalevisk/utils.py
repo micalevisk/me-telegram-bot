@@ -1,9 +1,8 @@
 from pyrogram.api import types, functions, errors
 
 
-##############################################################################
-################################ utils module ################################
-##############################################################################
+## https://docs.pyrogram.ml/types/UpdateNewMessage
+## https://docs.pyrogram.ml/types/UpdateEditMessage
 def is_newmessage_from_self(update:types.UpdateNewMessage or types.UpdateEditMessage) -> bool:
   # if isinstance(update, types.UpdateNewMessage):
   message = update.message
@@ -21,6 +20,9 @@ def clear_history(client, peer_id:int or str) -> types.messages.AffectedHistory:
     return None
 
 
+## https://github.com/pyrogram/pyrogram/blob/a961eb88db115ca0516df935eef0f2a07e5ff221/pyrogram/client/style/markdown.py#L54
+## https://github.com/pyrogram/pyrogram/blob/027f843047cc9766c9498d4c66f4d17efe801cc6/pyrogram/client/client.py#L236
+## https://t.me/PyrogramChat/4985
 def is_not_foreign_user(client, peer_id:str or int) -> bool:
   return peer_id in (
     client.peers_by_username if type(peer_id) is str
@@ -48,6 +50,7 @@ def message_has_link(message:types.Message) -> bool:
 def parse_usernames(users, separator:str='\n') -> str:
   return separator.join([ user['username'] for user in users ])
 
+## https://docs.pyrogram.ml/functions/channels/GetParticipants
 def get_chat_admins(client, chat_id:int) -> list:
   users = client.send(
     functions.channels.GetParticipants(
