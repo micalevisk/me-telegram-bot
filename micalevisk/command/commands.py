@@ -16,5 +16,4 @@ def exec_command_admins(client, message:types.Message):
   return client.edit_message_text(chat_id, message.id, cmd_response_msg) if cmd_response_msg else client.delete_messages(chat_id, [message.id], True)
 
 def handler_command_admins(client, update):
-  if not is_newmessage_from_self(update):
-    return exec_command_admins(client, update.message)
+  return exec_command_admins(client, update.message)
