@@ -59,20 +59,16 @@ def update_handler(client, update, users, chats):
     if isinstance(message, types.MessageService):
       if isinstance(message.action, types.MessageActionChatAddUser):
         users_joined = message.action.users
-        print(update, file=sys.stderr)
-        print(update)
         return
 
     ## handling channel messages
     if not isinstance(message, types.Message): return
-
     if command.msg_with_cmd_style(message.message):
       return command.listener(message.message, commands_switcher_func_args)
 
     ## handling 'forward' messages (except from myself)
     ## TODO: implementar handler obedecendo ao algoritmo do 'suspect spam'
     elif message.fwd_from:
-      print(update)
       fwd_message_id = message.id
       from_user_id = message.from_id
       to_channel_id = message.to_id.channel_id
