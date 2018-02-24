@@ -14,7 +14,7 @@ def handler_action_auto_reply(client, message:types.Message):
       )
     )
 
-    if len(chat_history.messages) <= 2: ## XXX: a lógica admite que um foreign user não enviará mais de 2 menssagens de uma vez
+    if len(chat_history.messages) <= 1: ## XXX: a lógica admite que um foreign user não enviará mais de 1 menssagens de uma vez
       return client.send_message(message.from_id, '**eo**', reply_to_message_id=message.id)
   except Exception as err:
     print(handler_action_auto_reply.__name__, err, file=sys.stderr)#§
