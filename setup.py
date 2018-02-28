@@ -15,7 +15,8 @@ def handler_action_auto_reply(client, message:types.Message):
     )
 
     if len(chat_history.messages) <= 1: ## XXX: a lógica admite que um foreign user não enviará mais de 1 menssagens de uma vez
-      return client.send_message(message.from_id, '**eo**', reply_to_message_id=message.id)
+      client.send_message(message.from_id, '**eo**', reply_to_message_id=message.id)
+      return client.send( functions.account.UpdateStatus(offline=True) ) ## deixa o client offline
   except Exception as err:
     print(handler_action_auto_reply.__name__, err, file=sys.stderr)#§
 
