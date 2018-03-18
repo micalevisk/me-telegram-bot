@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ccfda41eea410600d1d7ce5863175caf5fa1224e752fbdd34120215ed49fd819"
+            "sha256": "0cad180375e1d9ddc6b58a93ca335d84406a1e3f5b99b47c36296884866476aa"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,13 +29,6 @@
         ]
     },
     "default": {
-        "click": {
-            "hashes": [
-                "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
-                "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
-            ],
-            "version": "==6.7"
-        },
         "configparser": {
             "hashes": [
                 "sha256:5308b47021bc2340965c371f0f058cc6971a04502638d4244225c49d80db273a"
@@ -50,9 +43,9 @@
         },
         "pyrogram": {
             "hashes": [
-                "sha256:c1ba419de73e9e257925144b4dcde82f71c392d51128276602487993f0ce847b"
+                "sha256:c801e78bc31be1886d1519946b48935fdb972992e1c29003bf96baa2db431b87"
             ],
-            "version": "==0.6.1"
+            "version": "==0.6.3"
         },
         "pysocks": {
             "hashes": [
@@ -62,10 +55,10 @@
         },
         "python-dotenv": {
             "hashes": [
-                "sha256:dc7940052cfe170e881aea40feb4ea7776e6a97170ed038fd2ee7e26e47585f2",
-                "sha256:45e927c34204c90f5faa35ea8709b894f6b1a7712d77eb50940601068040993b"
+                "sha256:4965ed170bf51c347a89820e8050655e9c25db3837db6602e906b6d850fad85c",
+                "sha256:509736185257111613009974e666568a1b031b028b61b500ef1ab4ee780089d5"
             ],
-            "version": "==0.7.1"
+            "version": "==0.8.2"
         }
     },
     "develop": {}

@@ -2,6 +2,7 @@
 ## https://core.telegram.org/methods
 from pyrogram.api import types, functions
 from micalevisk import *
+from xclient import *
 import sys
 from xclient import XClient
 
@@ -81,7 +82,10 @@ def update_handler(client, update, users, chats):
 
 if __name__ == '__main__':
   try:
-    client = XClient(session_name='me_bot')
+    client = XClient(
+      session_name='me_bot',
+      api_key=( int(os.environ.get('TELEGRAM_API_ID')), os.environ.get('TELEGRAM_API_HASH') )
+    )
     client.set_update_handler(update_handler)
 
     client.start()
