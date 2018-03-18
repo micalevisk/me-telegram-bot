@@ -1,4 +1,5 @@
 from pyrogram.api import types, functions, errors
+from pyrogram.api.types import InputPeerSelf
 
 
 ## https://docs.pyrogram.ml/types/UpdateNewMessage

@@ -1,4 +1,5 @@
 from micalevisk.utils import *
+import re
 
 
 ############################################################
@@ -17,3 +18,29 @@ def exec_command_admins(client, message:types.Message):
 
 def handler_command_admins(client, update):
   return exec_command_admins(client, update.message)
+
+
+##########################################################
+######################### 'tags' #########################
+## TODO: unique hashtags                                ##
+##########################################################
+def exec_command_tags(client, message:types.Message):
+  chat_id = 'me'
+  client.edit_message_text(chat_id, message.id, 'executando...')
+
+  saved_messages_history = client.send(
+    functions.messages.GetHistory(
+      InputPeerSelf(),
+      0, 0, 0, 5000, 0, 0, 0
+    )
+  )
+
+  re_hashtags = re.compile('\B(#\w+)')
+  msgs = [ '\n'.join(re.findall(re_hashtags, m.message)) for m in saved_messages_history.messages if isinstance(m, types.Message) and re.search(re_hashtags, m.message) ]
+
+  msg_result = '\n'.join(msgs) if len(msgs) > 0 else 'nenhuma tag foi encontrada'
+  return client.edit_message_text(chat_id, message.id, msg_result)
+
+def handler_command_tags(client, update):
+  if is_newmessage_from_self(update):
+    return exec_command_tags(client, update.message)
