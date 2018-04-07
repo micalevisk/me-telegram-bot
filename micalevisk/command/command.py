@@ -10,7 +10,7 @@ from sys import stderr
 COMMAND_KEYWORD = '!'
 COMMAND_HANDLER_PREFIX = 'handler_command_'
 COMMANDS_AND_ACTIONS = { ## chave:str, valor:callable (client, update) [o handler_command_x]
-  'teste': lambda c, u: c.send_message('me', 'o comando !teste foi executadoooo'),
+  'teste': lambda c, u, *args: c.send_message('me', 'o comando !teste foi executadoooo'),
 }
 
 
@@ -22,8 +22,9 @@ def msg_with_cmd_style(message:str):
 def listener(cmd_message:str, args:list):
   # print('comando', cmd_message, 'escutado', file=stderr)#§
 
-  cmd = cmd_message[ len(COMMAND_KEYWORD): ]
-  return COMMANDS_AND_ACTIONS[cmd](*args) if cmd in COMMANDS_AND_ACTIONS else None
+  cmd, *cmd_args = cmd_message.split()
+  cmd = cmd[ len(COMMAND_KEYWORD): ]
+  return COMMANDS_AND_ACTIONS[cmd](*args, cmd_args) if cmd in COMMANDS_AND_ACTIONS else None
   # return COMMANDS_AND_ACTIONS[cmd](*args)
 
 
