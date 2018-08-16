@@ -1,5 +1,7 @@
 from pyrogram.api import types, functions, errors
 from pyrogram.api.types import InputPeerSelf
+from requests import get as HTTP_GET
+from bs4 import BeautifulSoup
 
 
 ## https://docs.pyrogram.ml/types/UpdateNewMessage
@@ -67,3 +69,30 @@ def get_chat_admins(client, chat_id:int) -> list:
 
 def filter_users_with_status(users, tuple_types=()) -> list:
   return list( filter(lambda u: isinstance(u['status'], tuple_types), users) ) if tuple_types else users
+
+
+def get_last_announcement_sites_google(project_name):
+  def formatar_data(str_data):
+    if (str_data is None):
+      return str_data
+
+    [dia, _, mes, _, ano, hora] = str_data.split(' ')
+    return '{}/{}/{} ({})'.format(dia, mes, ano, hora)
+
+  BASE_URL = 'https://sites.google.com'
+  url = BASE_URL + '/site/' + project_name + '/classroom-news'
+  page = HTTP_GET(url)
+  soup = BeautifulSoup(page.text, 'html.parser')
+
+  el_last_announcement = soup.find(class_='announcement')
+  el_timestamp = el_last_announcement.find(class_='timestamp')
+  el_updatedTime = el_timestamp.find(class_='updatedTime')
+
+  el_title = el_last_announcement.h4
+
+  return {
+    'title': el_title.a.text,
+    'link': BASE_URL + el_title.a['href'],
+    'publish_date': formatar_data( el_timestamp.span.text ),
+    'updated_date': formatar_data( el_updatedTime.span.text )
+  }
