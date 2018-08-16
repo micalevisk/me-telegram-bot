@@ -1,4 +1,5 @@
 from micalevisk.utils import *
+from pyrogram import ParseMode
 import re
 
 
@@ -45,3 +46,22 @@ def exec_command_tags(client, message:types.Message):
 def handler_command_tags(client, update, *args):
   if is_newmessage_from_self(update):
     return exec_command_tags(client, update.message)
+
+
+#########################################################
+######################### 'plp' #########################
+#########################################################
+def exec_command_plp(client, message:types.Message):
+  chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
+  client.edit_message_text(chat_id, message.id, 'executando...')
+
+  ultimo_anuncio = get_last_announcement_sites_google('plpicompufam2018periodo2')
+  if (ultimo_anuncio is None):
+    return client.delete_messages(chat_id, [message.id], True)
+
+  msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a> '.format(**ultimo_anuncio)
+  return client.edit_message_text(chat_id, message.id, msg_result,  ParseMode.HTML)
+
+def handler_command_plp(client, update, *args):
+  if is_newmessage_from_self(update):
+    return exec_command_plp(client, update.message)
