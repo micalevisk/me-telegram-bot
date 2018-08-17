@@ -59,8 +59,12 @@ def exec_command_plp(client, message:types.Message):
   if (ultimo_anuncio is None):
     return client.delete_messages(chat_id, [message.id], True)
 
+  if ('updated_date' in ultimo_anuncio):
+    msg_result = '<b>{publish_date}</b> ~ <code>{updated_date}</code>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
+  else:
   msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
-  return client.edit_message_text(chat_id, message.id, msg_result,  ParseMode.HTML)
+
+  return client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
 
 def handler_command_plp(client, update, *args):
   if is_newmessage_from_self(update):
