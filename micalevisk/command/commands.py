@@ -28,7 +28,7 @@ def handler_command_admins(client, update, *args):
 REGEX_HASHTAGS = re.compile('\B(#\w+)')
 def exec_command_tags(client, message:types.Message):
   chat_id = 'me'
-  client.edit_message_text(chat_id, message.id, 'executando...')
+  client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
 
   saved_messages_history = client.send(
     functions.messages.GetHistory(
@@ -53,7 +53,7 @@ def handler_command_tags(client, update, *args):
 #########################################################
 def exec_command_plp(client, message:types.Message):
   chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
-  client.edit_message_text(chat_id, message.id, 'executando...')
+  client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
 
   ultimo_anuncio = get_last_announcement_sites_google('plpicompufam2018periodo2')
   if (ultimo_anuncio is None):
@@ -62,7 +62,7 @@ def exec_command_plp(client, message:types.Message):
   if ('updated_date' in ultimo_anuncio):
     msg_result = '<b>{publish_date}</b> ~ <code>{updated_date}</code>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
   else:
-  msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
+    msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
 
   return client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
 
