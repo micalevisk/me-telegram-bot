@@ -29,7 +29,11 @@ def handler_command_admins(client, update, *args):
 REGEX_HASHTAGS = re.compile('\B(#\w+)')
 def exec_command_tags(client, message:types.Message):
   chat_id = 'me'
-  client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
+  try:
+    client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
+  except Exception as inst:
+    print(inst)
+    return
 
   saved_messages_history = client.send(
     functions.messages.GetHistory(
