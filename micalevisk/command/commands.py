@@ -1,5 +1,6 @@
 from micalevisk.utils import *
 from pyrogram import ParseMode
+from time import sleep
 import re
 
 
@@ -51,6 +52,7 @@ def handler_command_tags(client, update, *args):
 #########################################################
 ######################### 'plp' #########################
 #########################################################
+REGEX_FLOOD_WAIT_X_ERROR = re.compile('.+ wait of (\d+)', re.IGNORECASE)
 def exec_command_plp(client, message:types.Message):
   chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
   client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
@@ -64,7 +66,15 @@ def exec_command_plp(client, message:types.Message):
   else:
     msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
 
-  return client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
+  edit_message = lambda: client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
+
+  try:
+    return edit_message()
+  except Exception as inst:
+    match = REGEX_FLOOD_WAIT_X_ERROR.match( inst.args[0] )
+    if match:
+      sleep( int(match.group(1)) )
+      return edit_message()
 
 def handler_command_plp(client, update, *args):
   if is_newmessage_from_self(update):
