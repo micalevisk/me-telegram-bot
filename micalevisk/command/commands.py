@@ -100,3 +100,22 @@ def exec_command_d(client, message:types.Message):
 def handler_command_d(client, update, *args):
   if is_newmessage_from_self(update):
     return exec_command_d(client, update.message)
+
+
+########################################################
+######################### 'as' #########################
+########################################################
+def exec_command_as(client, message:types.Message):
+  chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
+  try:
+    m = re.match(r'[^\s]+\s([^\s]+)\s(.+)', message.message) ## TODO: tratar casos onde o link começa e termina com aspas
+    if m:
+      msg_result = f'<a href="{m.group(1)}">{m.group(2)}</a>'
+      client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
+  except Exception as inst:
+    print(inst)
+    return
+
+def handler_command_as(client, update, *args):
+  if is_newmessage_from_self(update):
+    return exec_command_as(client, update.message)
