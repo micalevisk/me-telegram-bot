@@ -3,6 +3,7 @@ from pyrogram import ParseMode
 from time import sleep
 import re
 
+msgs_reportadas = dict([]) ## <reply_to_msg_id> --> <message.id>
 
 ############################################################
 ######################### 'admins' #########################
