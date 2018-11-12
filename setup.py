@@ -52,6 +52,20 @@ def update_handler(client, update, users, chats):
     if isinstance(message, types.Message) and command.msg_with_cmd_style(message.message):
       return command.listener(message.message, commands_switcher_func_args)
 
+  ## handling channels deleted messages
+  ## https://docs.pyrogram.ml/types/UpdateDeleteChannelMessages
+  if isinstance(update, types.UpdateDeleteChannelMessages):
+    chat_id = update.channel_id
+    id_msgs_deleted = update.messages
+
+    msgs_to_remove = []
+    for id_msg in id_msgs_deleted:
+      if id_msg in msgs_reportadas:
+        msgs_to_remove.append( msgs_reportadas[id_msg] )
+        del msgs_reportadas[id_msg]
+
+    return client.delete_messages(chat_id, msgs_to_remove, True)
+
   ## handling channels updates
   ## https://docs.pyrogram.ml/types/UpdateNewChannelMessage
   if isinstance(update, types.UpdateNewChannelMessage):
