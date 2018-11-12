@@ -93,23 +93,6 @@ def handler_command_plp(client, update, *args):
     return exec_command_plp(client, update.message)
 
 
-#######################################################
-######################### 'd' #########################
-#######################################################
-def exec_command_d(client, message:types.Message):
-  chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
-  messages_ids_to_delete = [ message.id ]
-
-  if (message.reply_to_msg_id):
-    messages_ids_to_delete.append(message.reply_to_msg_id)
-
-  return client.delete_messages(chat_id, messages_ids_to_delete, True)
-
-def handler_command_d(client, update, *args):
-  if is_newmessage_from_self(update):
-    return exec_command_d(client, update.message)
-
-
 ########################################################
 ######################### 'as' #########################
 ########################################################
