@@ -64,7 +64,8 @@ def update_handler(client, update, users, chats):
         msgs_to_remove.append( msgs_reportadas[id_msg] )
         del msgs_reportadas[id_msg]
 
-    return client.delete_messages(chat_id, msgs_to_remove, True)
+    if msgs_to_remove: ## verificar se a lista não está vazia
+      return client.delete_messages(chat_id, msgs_to_remove, True)
 
   ## handling channels updates
   ## https://docs.pyrogram.ml/types/UpdateNewChannelMessage
