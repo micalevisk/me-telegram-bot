@@ -56,6 +56,7 @@ def update_handler(client, update, users, chats):
   ## https://docs.pyrogram.ml/types/UpdateNewChannelMessage
   if isinstance(update, types.UpdateNewChannelMessage):
     message = update.message
+
     if not isinstance(message.to_id, types.PeerChannel): return
 
     ## handling 'join' messages
