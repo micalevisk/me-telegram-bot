@@ -27,6 +27,7 @@ def handler_action_auto_reply(client, message:types.Message):
 ## https://docs.pyrogram.ml/types/Update
 def update_handler(client, update, users, chats):
   commands_switcher_func_args = [client, update] ## TODO: incluir os demais parâmetros
+  print(type(update))##§
 
   ## handling private messages or edit messages
   ## https://docs.pyrogram.ml/types/UpdateNewMessage
