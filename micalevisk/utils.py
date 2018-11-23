@@ -94,5 +94,5 @@ def get_last_announcement_sites_google(project_name):
     'title': el_title.a.text,
     'link': BASE_URL + el_title.a['href'],
     'publish_date': formatar_data( el_timestamp.span.text ),
-    'updated_date': formatar_data( el_updatedTime.span.text )
+    'updated_date': el_updatedTime and formatar_data( el_updatedTime.span.text )
   }
