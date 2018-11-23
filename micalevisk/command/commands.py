@@ -73,7 +73,7 @@ def exec_command_plp(client, message:types.Message):
   if (ultimo_anuncio is None):
     return client.delete_messages(chat_id, [message.id], True)
 
-  if ('updated_date' in ultimo_anuncio):
+  if (ultimo_anuncio['updated_date']):
     msg_result = '<b>{publish_date}</b> ~ <code>{updated_date}</code>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
   else:
     msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
