@@ -95,18 +95,20 @@ def handler_command_plp(client, update, cmd_args):
 
 ########################################################
 ######################### 'as' #########################
+## TODO: sanitizar o texto (remover tags HTML)        ##
 ########################################################
-def exec_command_as(client, message:types.Message):
+def exec_command_as(client, message:types.Message, cmd_args):
+  url, text = cmd_args.split(' ', 1)
+
   chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
   try:
-    m = re.match(r'[^\s]+\s([^\s]+)\s(.+)', message.message) ## TODO: tratar casos onde o link começa e termina com aspas
-    if m:
-      msg_result = f'<a href="{m.group(1)}">{m.group(2)}</a>'
-      client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
+    msg_result = f'<a href="{url}">{text}</a>'
+    client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
+    print(msg_result)
   except Exception as inst:
     print(inst)
-    return
+    return client.delete_messages(chat_id, [message.id], True)
 
-def handler_command_as(client, update, *args):
+def handler_command_as(client, update, cmd_args):
   if is_newmessage_from_self(update):
-    return exec_command_as(client, update.message)
+    return exec_command_as(client, update.message, cmd_args)
