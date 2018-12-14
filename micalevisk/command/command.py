@@ -20,12 +20,12 @@ def msg_with_cmd_style(message:str):
 
 # def listener(cmd_message:str, *args): ## https://stackoverflow.com/questions/3394835/args-and-kwargs
 def listener(cmd_message:str, args:list):
-  # print('comando', cmd_message, 'escutado', file=stderr)#§
+  cmd_like = cmd_message.split(' ', 1)[0]
+  cmd = cmd_like[ len(COMMAND_KEYWORD) : ]
+  cmd_args = cmd_message[ len(COMMAND_KEYWORD) + len(cmd) + 1 : ]
+  # print(f'mensagem comando-like |{cmd}| ; args = |{cmd_args}|', file=stderr)#§
 
-  cmd, *cmd_args = cmd_message.split()
-  cmd = cmd[ len(COMMAND_KEYWORD): ]
   return COMMANDS_AND_ACTIONS[cmd](*args, cmd_args) if cmd in COMMANDS_AND_ACTIONS else None
-  # return COMMANDS_AND_ACTIONS[cmd](*args)
 
 
 def enable():
