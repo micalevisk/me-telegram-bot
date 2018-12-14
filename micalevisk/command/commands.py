@@ -61,38 +61,6 @@ def handler_command_tags(client, update, cmd_args):
     return exec_command_tags(client, update.message)
 
 
-#########################################################
-######################### 'plp' #########################
-#########################################################
-REGEX_FLOOD_WAIT_X_ERROR = re.compile('.+ wait of (\d+)', re.IGNORECASE)
-def exec_command_plp(client, message:types.Message):
-  chat_id = message.to_id.user_id if isinstance(message.to_id, types.PeerUser) else message.to_id.channel_id
-  client.edit_message_text(chat_id, message.id, '<code>...</code>', ParseMode.HTML)
-
-  ultimo_anuncio = get_last_announcement_sites_google('plpicompufam2018periodo2')
-  if (ultimo_anuncio is None):
-    return client.delete_messages(chat_id, [message.id], True)
-
-  if (ultimo_anuncio['updated_date']):
-    msg_result = '<b>{publish_date}</b> ~ <code>{updated_date}</code>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
-  else:
-    msg_result = '<b>{publish_date}</b>\n<a href="{link}">{title}</a>'.format(**ultimo_anuncio)
-
-  edit_message = lambda: client.edit_message_text(chat_id, message.id, msg_result, ParseMode.HTML)
-
-  try:
-    return edit_message()
-  except Exception as inst:
-    match = REGEX_FLOOD_WAIT_X_ERROR.match( inst.args[0] )
-    if match:
-      sleep( int(match.group(1)) )
-      return edit_message()
-
-def handler_command_plp(client, update, cmd_args):
-  if is_newmessage_from_self(update):
-    return exec_command_plp(client, update.message)
-
-
 ########################################################
 ######################### 'as' #########################
 ## TODO: sanitizar o texto (remover tags HTML)        ##
