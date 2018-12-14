@@ -26,7 +26,7 @@ def exec_command_admins(client, message:types.Message):
 
   return client.delete_messages(chat_id, [message.id], True)
 
-def handler_command_admins(client, update, *args):
+def handler_command_admins(client, update, cmd_args):
   return exec_command_admins(client, update.message)
 
 
@@ -56,7 +56,7 @@ def exec_command_tags(client, message:types.Message):
   msg_result = '\n'.join(msgs) if len(msgs) > 0 else 'nenhuma tag foi encontrada'
   return client.edit_message_text(chat_id, message.id, msg_result)
 
-def handler_command_tags(client, update, *args):
+def handler_command_tags(client, update, cmd_args):
   if is_newmessage_from_self(update):
     return exec_command_tags(client, update.message)
 
@@ -88,7 +88,7 @@ def exec_command_plp(client, message:types.Message):
       sleep( int(match.group(1)) )
       return edit_message()
 
-def handler_command_plp(client, update, *args):
+def handler_command_plp(client, update, cmd_args):
   if is_newmessage_from_self(update):
     return exec_command_plp(client, update.message)
 
