@@ -32,7 +32,6 @@ def handler_command_admins(client, update, cmd_args):
 
 ##########################################################
 ######################### 'tags' #########################
-## TODO: unique hashtags                                ##
 ##########################################################
 REGEX_HASHTAGS = re.compile('\B(#\w+)')
 def exec_command_tags(client, message:types.Message):
@@ -50,8 +49,8 @@ def exec_command_tags(client, message:types.Message):
     )
   )
 
-  msgs = [ '\n'.join(re.findall(REGEX_HASHTAGS, m.message))
-    for m in saved_messages_history.messages if isinstance(m, types.Message) and re.search(REGEX_HASHTAGS, m.message) ]
+  msgs = { '\n'.join( set(re.findall(REGEX_HASHTAGS, m.message)) )
+    for m in saved_messages_history.messages if isinstance(m, types.Message) and re.search(REGEX_HASHTAGS, m.message) }
 
   msg_result = '\n'.join(msgs) if len(msgs) > 0 else 'nenhuma tag foi encontrada'
   return client.edit_message_text(chat_id, message.id, msg_result)
