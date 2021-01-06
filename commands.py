@@ -4,6 +4,8 @@ import logging
 import re
 from pyrogram import Client
 import pyrogram.filters as Filter
+from pyrogram.types import ChatPermissions
+from pyrogram import raw
 from tinydb import TinyDB, where
 from configparser import ConfigParser
 from functools import wraps
@@ -93,7 +95,10 @@ def command_lowlevel__admins(app: Client):
     for db_report_msg in db_report_msgs:
       try:
         # TODO: group messages by `chat_id` so this delete operation will be perfomed only once in some cases
+
+        # ACK
         client.delete_messages(db_report_msg['chat_id'], db_report_msg['message_id'])
+
         db_message_id_to_remove.append(db_report_msg['message_id'])
       except Exception as err:
         print(err)
@@ -121,6 +126,7 @@ def command_lowlevel__admins(app: Client):
           admins_mentions.append( get_mention_format(user, parse_mode="md") )
 
     if len(admins_mentions) <= 0:
+      # ACK
       client.delete_messages(chat_id, message_id)
       return
 
@@ -132,6 +138,7 @@ def command_lowlevel__admins(app: Client):
 
       client.edit_message_text(chat_id, message_id, new_text, parse_mode="md")
     except:
+      # ACK
       client.delete_messages(chat_id, message_id)
 
   return command__admins
@@ -150,6 +157,7 @@ def command__as(client, msg):
       msg.chat.id, msg.message_id, msg_result,
       parse_mode="html", disable_web_page_preview=True)
   except:
+    # ACK
     client.delete_messages(msg.chat.id, msg.message_id)
 
 
@@ -161,6 +169,7 @@ def command__as(client, msg):
 def command__help(client, msg):
   available_commands = '\n'.join([
     'admins',
+    'ban',
     'as <url> <text>',
     'help',
     'ping',
@@ -197,6 +206,7 @@ def command__rm(client, msg):
     if message.from_user != None and message.from_user.is_self:
       message_ids.append(message.message_id)
 
+  # ACK
   client.delete_messages(chat_id, message_ids)
 
 
@@ -224,6 +234,7 @@ def command__tags(client, msg):
     except:
       client.delete_messages(chat_id, message_id)
   else:
+    # ACK
     client.delete_messages(chat_id, message_id)
 
 
@@ -238,8 +249,10 @@ if not stickers_id.has_section('twitch_stickers'):
 @command('t')
 def command__t(client, msg):
   chat_id = msg.chat.id
+  message_id = msg.message_id
   emote_name = msg.command[1]
-  client.delete_messages(chat_id, msg.message_id)
+  # ACK
+  client.delete_messages(chat_id, message_id)
 
   if stickers_id.has_option('twitch_stickers', emote_name):
     file_id = stickers_id.get('twitch_stickers', emote_name)
@@ -254,21 +267,58 @@ def command__t(client, msg):
 CHAT_ID_TO_FORWARD_VAGA=os.getenv("CHAT_ID_TO_FORWARD_VAGA")
 MSG_ON_FORWARD_VAGA=os.getenv("MSG_ON_FORWARD_VAGA")
 if CHAT_ID_TO_FORWARD_VAGA != None and MSG_ON_FORWARD_VAGA != None:
+  @restrict( Filter.group & Filter.reply )
   @command('vaga')
   def command__vaga(client, msg):
     chat_id = msg.chat.id
     message_id = msg.message_id
 
-    msg_reply = msg.reply_to_message
-    if msg_reply is not None:
-      author_mention = get_mention_format(msg_reply.from_user, parse_mode="md")
+    msg_replied_to = msg.reply_to_message
+    if msg_replied_to is not None:
+      author_mention = get_mention_format(msg_replied_to.from_user, parse_mode="md")
 
       try:
-        msg_reply.forward(CHAT_ID_TO_FORWARD_VAGA)
+        msg_replied_to.forward(CHAT_ID_TO_FORWARD_VAGA)
+
         new_text = author_mention + ' ' + MSG_ON_FORWARD_VAGA
+        # ACK
         client.edit_message_text(chat_id, message_id, new_text, parse_mode="md", disable_web_page_preview=True)
-        client.delete_messages(chat_id, msg_reply.message_id)
+
+        ## Try to delete
+        client.delete_messages(chat_id, msg_replied_to.message_id)
       except:
         ## Ignore errors
         pass
 
+
+##################################
+############# 'ban' ##############
+##################################
+@restrict( Filter.group & Filter.reply )
+@command('ban')
+def command__ban(client, msg):
+  chat_id = msg.chat.id
+  message_id = msg.message_id
+
+  msg_replied_to = msg.reply_to_message
+  if msg_replied_to is not None:
+    user_id_to_ban = msg_replied_to.from_user.id
+    try:
+      ## Delete all messages sent by the 'replied to' user
+      client.delete_user_history(chat_id, user_id_to_ban)
+      ## Completely restrict chat member (mute) forever
+      client.restrict_chat_member(chat_id, user_id_to_ban, ChatPermissions())
+      ## Report the user
+      raw.functions.messages.Report(
+        peer=client.resolve_peer(user_id_to_ban,),
+        id=user_id_to_ban,
+        reason=raw.types.InputReportReasonSpam()
+      )
+      ## Ban the user forever
+      client.kick_chat_member(chat_id, user_id_to_ban)
+
+      ## ACK
+      client.delete_messages(chat_id, message_id)
+    except:
+      ## Ignore errors
+      pass
