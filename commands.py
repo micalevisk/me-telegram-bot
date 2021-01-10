@@ -2,6 +2,7 @@ import os
 import traceback
 import logging
 import re
+from time import time
 from pyrogram import Client
 import pyrogram.filters as Filter
 from pyrogram.types import ChatPermissions
@@ -175,6 +176,7 @@ def command__help(client, msg):
     'ping',
     'rm <number-of-messages>',
     'tags',
+    's <minutes> <... text to schedule>',
     't <emote-name>',
     'vaga'
   ])
@@ -322,3 +324,21 @@ def command__ban(client, msg):
     except:
       ## Ignore errors
       pass
+
+###########################################
+######### 's <minutes> <... text>' ########
+###########################################
+@restrict( Filter.chat('me') )
+@command('s')
+def command__s(client, msg):
+  chat_id = msg.chat.id
+  message_id = msg.message_id
+  minutes = int(msg.command[1]) * 60
+  ## skip the command arg and the following space
+  ## skip the command string and the "!" prefix and the following space
+  text_to_send = msg.text[ len(msg.command[0])+2 +len(msg.command[1])+1 : ]
+
+  client.send_message('me', text_to_send, schedule_date=int(time() + minutes))
+
+  ## ACK
+  client.delete_messages(chat_id, message_id)
